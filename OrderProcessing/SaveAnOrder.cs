@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 
 namespace OrderProcessing
@@ -13,13 +14,16 @@ namespace OrderProcessing
     public static class SaveAnOrder
     {
         [FunctionName("SaveAnOrder")]
-        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]HttpRequest req, TraceWriter log)
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]HttpRequest req,
+            [Table("Orders", Connection = "<>")] ICollector<Order> ordersTable, TraceWriter log)
         {
-            Order order = null;
             try
             {
                 var requestBody = new StreamReader(req.Body).ReadToEnd();
-                order = JsonConvert.DeserializeObject<Order>(requestBody);
+                var order = JsonConvert.DeserializeObject<Order>(requestBody);
+                order.PartitionKey = DateTime.UtcNow.DayOfYear.ToString();
+                order.RowKey = order.FileName;
+                ordersTable.Add(order);
             }
             catch (Exception)
             {
@@ -30,7 +34,7 @@ namespace OrderProcessing
         }
     }
 
-    public class Order
+    public class Order : TableEntity
     {
         public string CustomerEmail { get; set; }
         public string FileName { get; set; }
