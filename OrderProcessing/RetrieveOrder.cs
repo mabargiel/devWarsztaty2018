@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,13 +32,20 @@ namespace OrderProcessing
             if (resultList.Any())
             {
                 var firstElement = resultList.First();
-                return new JsonResult(new
+                var resolutions = firstElement.Resolutions.Split(',');
+                var requests = new List<PictureResizeRequest>();
+
+                foreach (var resolution in resolutions)
                 {
-                    firstElement.CustomerEmail,
-                    firstElement.FileName,
-                    firstElement.RequiredHeight,
-                    firstElement.RequiredWidth
-                });
+                    var resParams = resolution.Split('x');
+                    requests.Add(new PictureResizeRequest
+                    {
+                        FileName = firstElement.FileName,
+                        RequiredWidth = int.Parse(resParams[0]),
+                        RequiredHeight = int.Parse(resParams[1])
+                    });
+                }
+                return new JsonResult(new {requests, firstElement.CustomerEmail});
             }
 
             return new NotFoundResult();

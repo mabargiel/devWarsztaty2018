@@ -38,7 +38,6 @@ namespace OrderProcessing
     {
         public string CustomerEmail { get; set; }
         public string FileName { get; set; }
-        public string RequiredHeight { get; set; }
-        public string RequiredWidth { get; set; }
+        public string Resolutions { get; set; }
     }
 }
