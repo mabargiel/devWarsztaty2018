@@ -42,7 +42,7 @@ namespace OrderProcessing
             }
             catch (Exception e)
             {
-                return new BadRequestResult();
+                return new BadRequestObjectResult(e.Message);
             }
         }
 
