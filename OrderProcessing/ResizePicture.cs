@@ -40,7 +40,7 @@ namespace OrderProcessing
         }
 
         private static void SetAttachmentAsContentDisposition(ICloudBlob resizedPhotoCloudBlob,
-            PitctureResizeRequest pictureResizeRequest)
+            PictureResizeRequest pictureResizeRequest)
         {
             resizedPhotoCloudBlob.Properties.ContentDisposition =
                 $"attachment; filename={pictureResizeRequest.RequiredWidth}x{pictureResizeRequest.RequiredHeight}";
@@ -54,15 +54,15 @@ namespace OrderProcessing
             return photoStream;
         }
 
-        private static PitctureResizeRequest GetResizeRequest(HttpRequest req)
+        private static PictureResizeRequest GetResizeRequest(HttpRequest req)
         {
             var requestBody = new StreamReader(req.Body).ReadToEnd();
-            var pictureResizeRequest = JsonConvert.DeserializeObject<PitctureResizeRequest>(requestBody);
+            var pictureResizeRequest = JsonConvert.DeserializeObject<PictureResizeRequest>(requestBody);
             return pictureResizeRequest;
         }
     }
 
-    public class PitctureResizeRequest
+    public class PictureResizeRequest
     {
         public string FileName { get; set; }
         public int RequiredWidth { get; set; }
