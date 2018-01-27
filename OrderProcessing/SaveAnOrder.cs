@@ -15,15 +15,18 @@ namespace OrderProcessing
         [FunctionName("SaveAnOrder")]
         public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]HttpRequest req, TraceWriter log)
         {
+            Order order = null;
             try
             {
                 var requestBody = new StreamReader(req.Body).ReadToEnd();
-                var order = JsonConvert.DeserializeObject<Order>(requestBody);
+                order = JsonConvert.DeserializeObject<Order>(requestBody);
             }
             catch (Exception)
             {
                 return new BadRequestObjectResult("Received data invalid");
             }
+
+            return new OkObjectResult("Success");
         }
     }
 
