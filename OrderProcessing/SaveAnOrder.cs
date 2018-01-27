@@ -32,9 +32,9 @@ namespace OrderProcessing
 
     public class Order
     {
-        public string Email { get; set; }
+        public string CustomerEmail { get; set; }
         public string FileName { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
+        public string RequiredHeight { get; set; }
+        public string RequiredWidth { get; set; }
     }
 }
