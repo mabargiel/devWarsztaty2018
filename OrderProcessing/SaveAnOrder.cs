@@ -15,7 +15,7 @@ namespace OrderProcessing
     {
         [FunctionName("SaveAnOrder")]
         public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]HttpRequest req,
-            [Table("Orders", Connection = "<>")] ICollector<Order> ordersTable, TraceWriter log)
+            [Table("Orders", Connection = "StorageConnection")] ICollector<Order> ordersTable, TraceWriter log)
         {
             try
             {
