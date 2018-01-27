@@ -12,7 +12,7 @@ namespace devWarsztaty2018
     public static class TestFunction
     {
         [FunctionName("TestFunction")]
-        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "/warsztaty/{id}")]HttpRequest req, TraceWriter log)
+        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
         {
             log.Info("C# HTTP trigger function processed a request.");
 
